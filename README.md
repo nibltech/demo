@@ -27,9 +27,9 @@ Prior to setting up this environment, you must:
     git clone --recursive https://github.com/nibltech/demo.git
     ```
 1. Copy Software AG license XML files to the following directories:
-    1. Copy API Gateway license to wM/apig/config
-    1. Copy Microservices Runtime license to wM/msr/config
-    1. Copy Universal Messaging license to wM/um/config
+    1. Copy API Gateway license to wM/apig/config with the file name licenseKey.xml
+    1. Copy Microservices Runtime license to wM/msr/config with the file name licenseKey.xml
+    1. Copy Universal Messaging license to wM/um/config with the file name licence.xml
 1. Copy the package files (Nt*.zip) and license file received from Nibble Technologies to the directory wM/nibble. (NOTE: If you do not have an Otelscope distribution or license file yet, please reach out to info@nibl.tech and we'll set you up with a trial license.)
 1. Open a DOS command prompt and navigate to the location where your repository was cloned.
 1. In Windows, navigate to scripts/bat, and on MacOS or Linux, navigate to scripts/sh.
