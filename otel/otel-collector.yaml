@@ -94,19 +94,6 @@ exporters:
   file/logs:
     path: /etc/logs/otlpLogs.json
 
-processors:
-  attributes:
-    actions:
-      - action: insert
-        key: loki.attribute.labels
-        value: log.file.name, source, facility, threadId, component, errorNumber, traceId
-
-  resource:
-    attributes:
-      - action: insert
-        key: loki.resource.labels
-        value: source
-
 extensions:
   health_check:
   pprof:
@@ -127,11 +114,9 @@ service:
     logs/msr:
       receivers: [filelog/msr]
       exporters: [file/logs]
-      processors: [resource, attributes]
     logs/apig:
       receivers: [filelog/apig]
       exporters: [file/logs]
-      processors: [resource, attributes]
     logs:
       receivers: [otlp]
       exporters: [file/logs]
