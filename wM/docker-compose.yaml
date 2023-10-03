@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+
+  # API Gateway
+  apig:
+    image: nibl-apig:${SAG_VERSION}
+    build:
+      context: ${WM_DIR:-.}
+      dockerfile: apig/Dockerfile
+      args:
+        TAG: ${APIG_DOCKER_TAG}
+        SAG_HOME: ${SAG_HOME}
+        IS_HOME: ${IS_HOME}
+        APIG_IS_HOME: ${APIG_IS_HOME}
+
+    # Settings for Elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 4g
+    cap_add:
+      - IPC_LOCK
+      
+    ports:
+      - "9072:9072"  # API Gateway web app
+      - "6660:5555"  # API Gateway Integration Server HTTP
+      - "9200:9200"  # Elasticsearch default port
+      - "9240:9240"  # Another Elasticsearch port
+      - "16033:10033"  # JVM Remote Debug
+    volumes:
+      - apig-logs:/opt/softwareag/IntegrationServer/instances/default/logs:rw
+
+  # Microservices Runtime
+  msr:
+    image: nibl-msr:${SAG_VERSION}
+    build:
+      context: ${WM_DIR:-.}
+      dockerfile: msr/Dockerfile
+      args:
+        TAG: ${MSR_DOCKER_TAG}
+        SAG_HOME: ${SAG_HOME}
+        IS_HOME: ${IS_HOME}
+    ports:
+      - "5550:5555"    # Integration Server HTTP
+      - "10033:10033"  # JVM Remote Debug
+    volumes:
+      - msr-logs:/opt/softwareag/IntegrationServer/logs:rw
+
+  # Universal Messaging
+  um:
+    image: nibl-um:${SAG_VERSION}
+    build:
+      context: ${WM_DIR:-.}
+      dockerfile: um/Dockerfile
+      args:
+        TAG: ${UM_DOCKER_TAG}
+    ports:
+      - "9000:9000"    # UM NSP

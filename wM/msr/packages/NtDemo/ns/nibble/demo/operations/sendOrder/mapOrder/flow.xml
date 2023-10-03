@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FLOW VERSION="3.0" CLEANUP="true">
+
+  <!-- nodes -->
+
+<MAP MODE="STANDALONE">
+
+  <!-- nodes -->
+
+<MAPCOPY FROM="/order;4;0;nibble.demo.docs:Order" TO="/internalOrder;4;0;nibble.demo.docs:InternalOrder">
+</MAPCOPY>
+
+<MAPDELETE FIELD="/order;4;0;nibble.demo.docs:Order">
+</MAPDELETE>
+</MAP>
+</FLOW>

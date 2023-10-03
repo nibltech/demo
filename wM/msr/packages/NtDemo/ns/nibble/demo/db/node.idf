@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="shared">cHJpdmF0ZSBzdGF0aWMgSURhdGFbXSBvcmRlcnM7DQpwcml2YXRlIHN0YXRpYyBMaXN0PFN0cmlu
+Zz4gb3JkZXJJZHMgPSAoTGlzdDxTdHJpbmc+KSBDb2xsZWN0aW9ucy5zeW5jaHJvbml6ZWRMaXN0
+KG5ldyBBcnJheUxpc3Q8U3RyaW5nPigpKTsNCnByaXZhdGUgc3RhdGljIExpc3Q8U3RyaW5nPiBz
+aGlwcGVkT3JkZXJJZHMgPSAoTGlzdDxTdHJpbmc+KSBDb2xsZWN0aW9ucy5zeW5jaHJvbml6ZWRM
+aXN0KG5ldyBBcnJheUxpc3Q8U3RyaW5nPigpKTsNCnByaXZhdGUgc3RhdGljIExpc3Q8U3RyaW5n
+PiBpbnZvaWNlZE9yZGVySWRzID0gKExpc3Q8U3RyaW5nPikgQ29sbGVjdGlvbnMuc3luY2hyb25p
+emVkTGlzdChuZXcgQXJyYXlMaXN0PFN0cmluZz4oKSk7DQpwcml2YXRlIHN0YXRpYyBmaW5hbCBB
+dG9taWNMb25nIHNoaXBtZW50SWQgPSBuZXcgQXRvbWljTG9uZygxKTsNCnByaXZhdGUgc3RhdGlj
+IGZpbmFsIEF0b21pY0xvbmcgaW52b2ljZUlkID0gbmV3IEF0b21pY0xvbmcoMSk7DQo=</value>
+  <value name="encodeutf8">true</value>
+  <array name="imports" type="value" depth="1">
+    <value>java.util.List</value>
+    <value>java.util.concurrent.atomic.AtomicLong</value>
+    <value>java.util.ArrayList</value>
+    <value>java.util.Collections</value>
+  </array>
+</Values>

@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  newman:
+    image: postman/newman:5.3.1-alpine
+    command: ["--version"]
+    volumes:
+      - ${NEWMAN_DIR:-.}/nibble-demo-api.postman_collection.json:/etc/newman/nibble-demo-api.postman_collection.json

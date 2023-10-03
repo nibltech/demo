@@ -1,0 +1,137 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+  filelog/msr:
+    include: [ /etc/msr-logs/server.log ]
+    start_at: end
+    operators:
+      - type: regex_parser
+        regex: '^(?P<timefield>[^\[]+)\[(?P<component>[\w\W]+)\.(?P<facility>[\w]+)\.(?P<errorNumber>[\w]+)(?P<sev>[\w])\]\s*(?:\(tid=(?P<threadId>[^\)]+)\))?\s*(?P<msg>(?:\[\s*traceId=(?P<traceId>\w+)\s*spanId=(?P<spanId>\w+))?.*)$'
+        timestamp:
+          parse_from: attributes.timefield
+          layout: '%Y-%m-%d %H:%M:%S %Z '
+          location: America/New_York
+        severity:
+          parse_from: attributes.sev
+          mapping:
+            error4: C
+            error: E
+            info: I
+            debug: D
+            trace: T
+            warn: W
+            fatal: F
+      - type: trace_parser
+        trace_id:
+          parse_from: attributes.traceId
+        span_id:
+          parse_from: attributes.spanId
+      - type: remove
+        field: attributes.timefield
+      - type: remove
+        field: attributes.sev
+      - type: remove
+        field: attributes.spanId
+      - type: move
+        from: attributes.msg
+        to: body
+      - type: add
+        field: attributes.source
+        value: msr
+    resource:
+      service.name: "msr"
+
+  filelog/apig:
+    include: [ /etc/apig-logs/server.log ]
+    start_at: end
+    operators:
+      - type: regex_parser
+        regex: '^(?P<timefield>[^\[]+)\[(?P<component>[\w\W]+)\.(?P<facility>[\w]+)\.(?P<errorNumber>[\w]+)(?P<sev>[\w])\]\s*(?:\(tid=(?P<threadId>[^\)]+)\))?\s*(?P<msg>(?:\[\s*traceId=(?P<traceId>\w+)\s*spanId=(?P<spanId>\w+))?.*)$'
+        timestamp:
+          parse_from: attributes.timefield
+          layout: '%Y-%m-%d %H:%M:%S %Z '
+          location: America/New_York
+        severity:
+          parse_from: attributes.sev
+          mapping:
+            error4: C
+            error: E
+            info: I
+            debug: D
+            trace: T
+            warn: W
+            fatal: F
+      - type: trace_parser
+        trace_id:
+          parse_from: attributes.traceId
+        span_id:
+          parse_from: attributes.spanId
+      - type: remove
+        field: attributes.timefield
+      - type: remove
+        field: attributes.sev
+      - type: remove
+        field: attributes.spanId
+      - type: move
+        from: attributes.msg
+        to: body
+      - type: add
+        field: attributes.source
+        value: apig
+    resource:
+      service.name: "apig"
+
+exporters:  
+  file/traces:
+    path: /etc/logs/otlpTraces.json
+
+  file/metrics:
+    path: /etc/logs/otlpMetrics.json
+
+  file/logs:
+    path: /etc/logs/otlpLogs.json
+
+processors:
+  attributes:
+    actions:
+      - action: insert
+        key: loki.attribute.labels
+        value: log.file.name, source, facility, threadId, component, errorNumber, traceId
+
+  resource:
+    attributes:
+      - action: insert
+        key: loki.resource.labels
+        value: source
+
+extensions:
+  health_check:
+  pprof:
+  zpages:
+
+service:
+  telemetry:
+    logs:
+      level: "debug"
+  extensions: [pprof, zpages, health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [file/traces]
+    metrics: 
+      receivers: [otlp]
+      exporters: [file/metrics]
+    logs/msr:
+      receivers: [filelog/msr]
+      exporters: [file/logs]
+      processors: [resource, attributes]
+    logs/apig:
+      receivers: [filelog/apig]
+      exporters: [file/logs]
+      processors: [resource, attributes]
+    logs:
+      receivers: [otlp]
+      exporters: [file/logs]

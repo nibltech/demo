@@ -1,0 +1,24 @@
+# Compiled Java class files
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+
+# Java class files
+*.class
+
+# webMethods Java frag files
+java.frag
+
+# Backup files
+*.bak
+
+# License files
+*.lic
+*licen*.xml
+
+# Temp directory
+/tmp

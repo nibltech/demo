@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.77.0
+    command: [ "--config=/etc/otel-collector.yaml" ]
+    environment:
+      - ZONEINFO=/etc/time/zoneinfo.zip
+    volumes:
+      - ${OTEL_DIR:-.}/otel-collector.yaml:/etc/otel-collector.yaml
+      - ${OTEL_DIR:-.}/logs:/etc/logs
+      - ${OTEL_DIR:-.}/zoneinfo.zip:/etc/time/zoneinfo.zip
+      - msr-logs:/etc/msr-logs:ro
+      - apig-logs:/etc/apig-logs:ro
+    ports:
+      - "4317:4317"  # otlp grpc
+      - "9091"       # prometheus metrics
