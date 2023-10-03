@@ -6,6 +6,7 @@
 
 # Package files
 *.jar
+!wM/updates/multirelease.jar
 
 # Java class files
 *.class
