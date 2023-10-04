@@ -25,7 +25,7 @@ COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR
 RUN mkdir ${APIG_IS_HOME}/logs \
     && chown sagadmin ${APIG_IS_HOME}/logs \
     && echo -n > ${APIG_IS_HOME}/logs/server.log \
-	&& chown sagadmin ${APIG_IS_HOME}/logs/server.log
+    && chown sagadmin ${APIG_IS_HOME}/logs/server.log
 
 # Remove unnecessary packages
 RUN cd ${TGT_PKGS_DIR} \
