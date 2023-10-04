@@ -21,5 +21,8 @@ java.frag
 *.lic
 *licen*.xml
 
+# Nibble distribution files
+Nt*.zip
+
 # Temp directory
 /tmp

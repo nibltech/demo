@@ -21,16 +21,11 @@ ENV JAVA_HOME=${SAG_HOME}/jvm/jvm
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/messaging.cnf ${TGT_CONFIG_DIR}
 
-# Replace the startContainer script
-COPY --chown=sagadmin:sagadmin ./msr/startContainer.sh ${IS_HOME}/bin/startContainer.sh
-
-# Apply updates
-RUN chown sagadmin ${TGT_UPDATES_DIR}
-COPY --chown=sagadmin:sagadmin ${SRC_UPDATES_DIR}/multirelease.jar ${TGT_UPDATES_DIR}
-
 # Take ownership of the shared volume
-RUN mkdir ${IS_HOME}/logs && chown sagadmin ${IS_HOME}/logs
-RUN echo -n > ${IS_HOME}/logs/server.log && chown sagadmin ${IS_HOME}/logs/server.log
+RUN mkdir ${IS_HOME}/logs \
+    && chown sagadmin ${IS_HOME}/logs \
+	&& echo -n > ${IS_HOME}/logs/server.log \
+	&& chown sagadmin ${IS_HOME}/logs/server.log
 
 # Remove unnecessary packages
 RUN cd ${TGT_PKGS_DIR} \
@@ -43,6 +38,7 @@ COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/*.cfg ${TGT_NIBBLE_DIR}
 # Install Nibble packages
 USER root
 RUN apk add bash
+
 USER sagadmin
 RUN ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
 
