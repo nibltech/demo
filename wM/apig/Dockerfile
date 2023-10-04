@@ -21,14 +21,11 @@ ENV JAVA_HOME=${SAG_HOME}/jvm/jvm
 # Copy configuration files
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
 
-COPY --chown=sagadmin:sagadmin ./apig/startContainer.sh ${IS_HOME}/bin/startContainer.sh
-
-RUN chown sagadmin ${TGT_UPDATES_DIR}
-COPY --chown=sagadmin:sagadmin ${SRC_UPDATES_DIR}/multirelease.jar ${TGT_UPDATES_DIR}
-
 # Take ownership of the shared volume
-RUN mkdir ${APIG_IS_HOME}/logs && chown sagadmin ${APIG_IS_HOME}/logs
-RUN echo -n > ${APIG_IS_HOME}/logs/server.log && chown sagadmin ${APIG_IS_HOME}/logs/server.log
+RUN mkdir ${APIG_IS_HOME}/logs \
+    && chown sagadmin ${APIG_IS_HOME}/logs \
+    && echo -n > ${APIG_IS_HOME}/logs/server.log \
+	&& chown sagadmin ${APIG_IS_HOME}/logs/server.log
 
 # Remove unnecessary packages
 RUN cd ${TGT_PKGS_DIR} \
