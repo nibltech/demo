@@ -38,6 +38,7 @@ COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/*.cfg ${TGT_NIBBLE_DIR}
 # Install Nibble packages
 USER root
 RUN apk add bash
+
 USER sagadmin
 RUN ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
 
