@@ -24,8 +24,8 @@ COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/messaging.cnf ${TGT_CONFIG_DIR}
 # Take ownership of the shared volume
 RUN mkdir ${IS_HOME}/logs \
     && chown sagadmin ${IS_HOME}/logs \
-	&& echo -n > ${IS_HOME}/logs/server.log \
-	&& chown sagadmin ${IS_HOME}/logs/server.log
+    && echo -n > ${IS_HOME}/logs/server.log \
+    && chown sagadmin ${IS_HOME}/logs/server.log
 
 # Remove unnecessary packages
 RUN cd ${TGT_PKGS_DIR} \
