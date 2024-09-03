@@ -2,7 +2,13 @@ receivers:
   otlp:
     protocols:
       grpc:
+        endpoint: otel-collector:4317
       http:
+        endpoint: otel-collector:4318
+        cors:
+          allowed_origins:
+            - "http://*"
+            - "https://*"
 
   filelog/msr:
     include: [ /etc/msr-logs/server.log ]

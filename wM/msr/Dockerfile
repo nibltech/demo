@@ -1,4 +1,4 @@
-ARG TAG
+ARG TAG=latest
 
 FROM sagcr.azurecr.io/webmethods-microservicesruntime:${TAG}
 
@@ -15,7 +15,7 @@ ARG TGT_PKGS_DIR=${IS_HOME}/packages
 
 ENV SAG_HOME=${SAG_HOME}
 ENV IS_HOME=${IS_HOME}
-ENV JAVA_HOME=${SAG_HOME}/jvm/jvm
+ENV JAVA_HOME=${JRE_HOME}
 
 # Copy configuration files
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
@@ -40,7 +40,7 @@ USER root
 RUN apk add bash
 
 USER sagadmin
-RUN ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
+RUN chmod +x ${TGT_NIBBLE_DIR}/install.sh && ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
 
 # Install NtDemo package
 COPY --chown=sagadmin:sagadmin ${SRC_PKGS_DIR}/NtDemo ${IS_HOME}/packages/NtDemo
