@@ -29,7 +29,7 @@ do
     # Copy the package zip to the package directory and unzip it
     cp ${ZIP_FILE} ${PKG_DIR}
     pushd ${PKG_DIR} > /dev/null
-    ${JAVA_HOME}/bin/jar -xf ${ZIP_FILE}
+    ${JAVA_HOME}/bin/jar -xf ${ZIP_FILE} || exit 1
     rm ${ZIP_FILE}
     popd > /dev/null
     echo " done!"

@@ -1,4 +1,4 @@
-ARG TAG
+ARG TAG=latest
 
 FROM sagcr.azurecr.io/apigateway:${TAG}
 
@@ -16,7 +16,7 @@ ARG TGT_PKGS_DIR=${APIG_IS_HOME}/packages
 ENV SAG_HOME=${SAG_HOME}
 ENV IS_HOME=${IS_HOME}
 ENV APIG_IS_HOME=${APIG_IS_HOME}
-ENV JAVA_HOME=${SAG_HOME}/jvm/jvm
+ENV JAVA_HOME=${JRE_HOME}
 
 # Copy configuration files
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
@@ -40,4 +40,4 @@ USER root
 RUN microdnf install -y findutils && microdnf clean all
 
 USER sagadmin
-RUN ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
+RUN chmod +x ${TGT_NIBBLE_DIR}/install.sh && ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
