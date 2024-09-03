@@ -1,8 +1,5 @@
 # This is a base Docker compose file to cause paths in the other Docker compose files are all relative to the project's root
 # and to define components that are shared across the different containers
-  
-version: "3"
-
 volumes:
   msr-logs:
   apig-logs:

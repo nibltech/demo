@@ -1,8 +1,6 @@
-version: "3"
-
 services:
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.77.0
+    image: otel/opentelemetry-collector-contrib:0.108.0
     command: [ "--config=/etc/otel-collector.yaml" ]
     environment:
       - ZONEINFO=/etc/time/zoneinfo.zip
