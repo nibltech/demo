@@ -26,6 +26,7 @@ Prior to setting up this environment, you must:
     ```
     git clone --recursive https://github.com/nibltech/demo.git
     ```
+1. Switch to the 'otelscope-to-file-target' branch
 1. Copy the IBM license XML files to the following directories:
     1. Copy API Gateway license to wM/apig/config with the file name licenseKey.xml
     1. Copy Microservices Runtime license to wM/msr/config with the file name licenseKey.xml
@@ -72,10 +73,10 @@ Prior to setting up this environment, you must:
 
 ## Running the the demo ##
 
-1. After MSR and APIG are up and running, first navigate to the API Gateway and confirm the Nibble Demo API was automatically registered:
+1. First, navigate to the API Gateway and confirm the Nibble Demo API was automatically registered:
     1. Open http://localhost:9072 to access the API Gateway UI
     1. Navigate to APIs
-    1. You should see the nibble-demo-api listed
+    1. You should see the 'nibble-demo-api' listed
 1. Next, confirm Otelscope was properly installed on the API Gateway Integration Server:
     1. Open http://localhost:6660 to access the API Gateway Integration Server administration console
     1. Navigate to Packages
