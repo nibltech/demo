@@ -91,6 +91,16 @@ receivers:
       service.name: "apig"
 
 exporters:  
+  prometheus:
+    endpoint: "otel-collector:9091"
+  otlp/tempo:
+    endpoint: tempo:4317
+    tls:
+      insecure: true
+  loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
+    tls:
+      insecure: true
   file/traces:
     path: /etc/logs/otlpTraces.json
 
@@ -100,10 +110,25 @@ exporters:
   file/logs:
     path: /etc/logs/otlpLogs.json
 
+processors:
+  batch:
+    timeout: 10s
+  attributes:
+    actions:
+      - action: insert
+        key: loki.attribute.labels
+        value: log.file.name, source, facility, threadId, component, errorNumber, traceId
+  resource:
+    attributes:
+      - action: insert
+        key: loki.resource.labels
+        value: source
 extensions:
   health_check:
   pprof:
   zpages:
+connectors:
+  spanmetrics:
 
 service:
   telemetry:
@@ -113,16 +138,25 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [file/traces]
+      exporters: [file/traces, otlp/tempo, spanmetrics]
+      processors: [batch]
     metrics: 
       receivers: [otlp]
-      exporters: [file/metrics]
+      exporters: [file/metrics, prometheus]
+      processors: [batch]
+    metrics/spanmetrics: 
+      receivers: [spanmetrics]
+      exporters: [file/metrics, prometheus]
+      processors: [batch]
     logs/msr:
       receivers: [filelog/msr]
-      exporters: [file/logs]
+      exporters: [file/logs, loki]
+      processors: [batch, resource, attributes]
     logs/apig:
       receivers: [filelog/apig]
-      exporters: [file/logs]
+      exporters: [file/logs, loki]
+      processors: [batch, resource, attributes]
     logs:
       receivers: [otlp]
-      exporters: [file/logs]
+      exporters: [file/logs, loki]
+      processors: [batch, resource, attributes]

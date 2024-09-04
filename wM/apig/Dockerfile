@@ -14,18 +14,17 @@ ARG TGT_UPDATES_DIR=${IS_HOME}/updates
 ARG TGT_PKGS_DIR=${APIG_IS_HOME}/packages
 
 ENV SAG_HOME=${SAG_HOME}
-ENV IS_HOME=${IS_HOME}
-ENV APIG_IS_HOME=${APIG_IS_HOME}
+ENV IS_HOME=${APIG_IS_HOME}
 ENV JAVA_HOME=${JRE_HOME}
 
 # Copy configuration files
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
 
 # Take ownership of the shared volume
-RUN mkdir ${APIG_IS_HOME}/logs \
-    && chown sagadmin ${APIG_IS_HOME}/logs \
-    && echo -n > ${APIG_IS_HOME}/logs/server.log \
-    && chown sagadmin ${APIG_IS_HOME}/logs/server.log
+RUN mkdir ${IS_HOME}/logs \
+    && chown sagadmin ${IS_HOME}/logs \
+    && echo -n > ${IS_HOME}/logs/server.log \
+    && chown sagadmin ${IS_HOME}/logs/server.log
 
 # Remove unnecessary packages
 RUN cd ${TGT_PKGS_DIR} \
