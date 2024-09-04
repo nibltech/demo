@@ -102,4 +102,4 @@ Prior to setting up this environment, you must:
         ```
 1. The inclusion of a traceId and spanId in the log entries above, indicate that Otelscope is up and running successfully. Time to check your Otel Collector target for metrics, traces, and logs.
 1. Navigate to the new folder called 'logs' under the otel folder of your cloned demo project
-1. Open the files and otlpLogs.json, otlpMetrics.json, and otlpTraces.json to observe as logs, metrics, and traces are sent from Otelscope to the OpenTelemetry Collector
+1. Open the files otlpLogs.json, otlpMetrics.json, and otlpTraces.json to observe as logs, metrics, and traces are sent from Otelscope to the OpenTelemetry Collector
