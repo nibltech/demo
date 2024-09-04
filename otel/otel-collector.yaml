@@ -98,6 +98,7 @@ exporters:
     tls:
       insecure: true
   loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
     tls:
       insecure: true
   file/traces:
