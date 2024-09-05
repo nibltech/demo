@@ -30,7 +30,7 @@ public final class gateway
 	{
 		// --- <<IS-START(registerApiThreaded)>> ---
 		// @sigtype java 3.5
-		Service.doThreadInvoke("nibble.demo.admin.gateway", "registerApi", pipeline);
+		Service.doThreadInvoke("nibble.demo.admin.gateway", "registerApi", IDataFactory.create());
 		// --- <<IS-END>> ---
 
                 
