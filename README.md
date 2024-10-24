@@ -19,7 +19,7 @@ Prior to setting up this environment, you must:
     [wsl2]
     kernelCommandLine = "sysctl.vm.max_map_count=262144"
     ```
-    If using linux, use the instructions appropriate for the flavor of the OS. For example, in RHEL 9, edit the /etc/sysctl.conf file to add the following"
+    If using linux, use the instructions appropriate for the flavor of the OS. For example, in RHEL 9, edit the /etc/sysctl.conf file to add the following:
    ```
    vm.max_map_count = 262144
    ```
