@@ -14,11 +14,19 @@ Prior to setting up this environment, you must:
     ```
     docker login sagcr.azurecr.io -u user-nibl-tech -p abcd1234efgh5678iklm
     ```
-1. In Windows, navigate to your home directory (i.e. %HOMEPATH%) create a file named .wslconfig if it doesn't exist and add the following lines to it:
+1. If using Windows, navigate to your home directory (i.e. %HOMEPATH%) create a file named .wslconfig if it doesn't exist and add the following lines to it:
     ```
     [wsl2]
     kernelCommandLine = "sysctl.vm.max_map_count=262144"
     ```
+    If using linux, use the instructions appropriate for the flavor of the OS. For example, in RHEL 9, edit the /etc/sysctl.conf file to add the following:
+   ```
+   vm.max_map_count = 262144
+   ```
+   In order for the changes to reflect without a restart run"
+   ```
+   sysctl --system
+   ```
 
 ## Setting up the demo environment ##
 
@@ -56,6 +64,7 @@ Prior to setting up this environment, you must:
      ✔ Container demo-um-1              Started                                                                                                                   1.3s 
      ✔ Container demo-otel-collector-1  Started                                                                                                                   1.3s 
     ```
+1. If the otel-collector container shuts down after starting, check the otel/logs folder on the host and make sure it is writable.
 1. On startup, the IS will automatically register the Nibble Demo API with the API Gateway. You can monitor the MSR server.log to determine when the MSR and APIG have started successfully. Run the command:
     ```
     logs.[bat|sh] -f msr
