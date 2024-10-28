@@ -1,0 +1,16 @@
+services:
+  # Orders
+  orders:
+    image: nibl-orders:1.0
+    build:
+      dockerfile: spring/Orders_Dockerfile
+    ports:
+      - "8080:8080"    # Port
+  # Inventory
+  inventory:
+    image: nibl-inventory:1.0
+    build:
+      dockerfile: spring/Inventory_Dockerfile
+    ports:
+      - "8081:8081"    # Port
+      

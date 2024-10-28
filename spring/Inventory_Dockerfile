@@ -1,0 +1,4 @@
+FROM eclipse-temurin:17-jdk-alpine
+COPY ./spring/Orders/build/libs/Orders-1.0.jar /opt/Orders/Orders-1.0.jar
+COPY ./spring/Orders/dependencies/opentelemetry-javaagent*.jar /opt/Orders/opentelemetry-javaagent.jar
+ENTRYPOINT ["java","-javaagent:/opt/Orders/opentelemetry-javaagent.jar","-Dserver.port=8081", "-Dotel.service.name=inventory", "-Dotel.exporter.otlp.endpoint=http://otel-collector:4317", "-jar", "/opt/Orders/Orders-1.0.jar"]
