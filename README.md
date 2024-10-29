@@ -115,7 +115,6 @@ Prior to setting up this environment, you must:
      ✔ Container demo-inventory-1       Started
    
     ```
-1. If the otel-collector container shuts down after starting, check the otel/logs folder on the host and make sure it is writable.
 1. On startup, the IS will automatically register the Nibble Demo API with the API Gateway. You can monitor the MSR server.log to determine when the MSR and APIG have started successfully. Run the command:
     ```
     logs.[bat|sh] -f msr
