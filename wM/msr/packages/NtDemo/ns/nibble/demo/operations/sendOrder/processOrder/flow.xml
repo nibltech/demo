@@ -97,6 +97,7 @@
     <value name="is_public">false</value>
     <value name="field_type">record</value>
     <value name="field_dim">0</value>
+    <value name="wrapper_type">IData</value>
     <value name="nillable">true</value>
     <value name="form_qualified">false</value>
     <value name="is_global">false</value>
@@ -121,6 +122,7 @@
         <value name="field_name">message</value>
         <value name="field_type">record</value>
         <value name="field_dim">0</value>
+        <value name="wrapper_type">IData</value>
         <value name="nillable">true</value>
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
@@ -168,6 +170,7 @@
         <value name="field_name">contextValues</value>
         <value name="field_type">record</value>
         <value name="field_dim">0</value>
+        <value name="wrapper_type">IData</value>
         <value name="nillable">true</value>
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
@@ -211,6 +214,7 @@
     <value name="is_public">false</value>
     <value name="field_type">record</value>
     <value name="field_dim">0</value>
+    <value name="wrapper_type">IData</value>
     <value name="nillable">true</value>
     <value name="form_qualified">false</value>
     <value name="is_global">false</value>
@@ -3388,6 +3392,10 @@
 <MAPDELETE FIELD="/order;4;0;nibble.demo.docs:Order">
 </MAPDELETE>
 </MAP>
+</INVOKE>
+
+<INVOKE TIMEOUT="" SERVICE="nibble.demo.operations.sendOrder:updateInventory" VALIDATE-IN="$none" VALIDATE-OUT="$none">
+  <COMMENT></COMMENT>
 </INVOKE>
 </SEQUENCE>
 </BRANCH>
