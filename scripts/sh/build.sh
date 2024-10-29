@@ -1,11 +1,11 @@
-#!/bin/bash -x
+#!/bin/bash
 
 SCRIPTS_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 pwd
 pushd ${SCRIPTS_DIR}/../../spring/Orders
 pwd
-./gradlew -x test build
+./gradlew -x test copyDependencies build
 popd
 
 # Build the Docker images

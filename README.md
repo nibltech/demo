@@ -2,7 +2,7 @@
 
 ## What is this repository for? ##
 
-Quickly spin up a Dockerized demo environment for Otelscope. In this demo, we use Otelscope to push logs, metrics, and traces from the webMethods API Gateway and Microservices Runtime to the Grafana stack composed of Grafana, Loki, Prometheus, and Tempo.
+Quickly spin up a Dockerized demo environment for Otelscope. In this demo, we use Otelscope to push logs, metrics, and traces from the webMethods API Gateway and Microservices Runtime to the Grafana stack composed of Grafana, Loki, Prometheus, and Tempo. The setup also includes two spring services that show traces that include spans from non-webMethods components.
 
 ## Pre-requisites ##
 
@@ -34,7 +34,7 @@ Prior to setting up this environment, you must:
     ```
     git clone --recursive https://github.com/nibltech/demo.git
     ```
-1. Switch to the 'otelscope-to-grafana-stack' branch
+1. Switch to the 'otelscope-with-spring' branch
 1. Copy the IBM license XML files to the following directories:
     1. Copy API Gateway license to wM/apig/config with the file name licenseKey.xml
     1. Copy Microservices Runtime license to wM/msr/config with the file name licenseKey.xml
@@ -42,11 +42,14 @@ Prior to setting up this environment, you must:
 1. Copy the package files (Nt*.zip) and license file received from Nibble Technologies to the directory wM/nibble. (NOTE: If you do not have an Otelscope distribution or license file yet, please reach out to info@nibl.tech and we'll set you up with a trial license.)
 1. Open a DOS command prompt and navigate to the location where your repository was cloned.
 1. In Windows, navigate to scripts/bat, and on MacOS or Linux, navigate to scripts/sh.
-1. Run 'build.[bat|sh]'. This will build 3 Docker images:
+1. Make sure the JAVA_HOME environment variable is set to a JDK location.
+1. Run 'build.[bat|sh]'. This will build 5 Docker images:
     * nibl-apig: webMethods API Gateway
     * nibl-msr: webMethods Microservices Runtime
     * nibl-um: webMethods Universal Messaging
-1. Run 'up.[bat|sh]'. This will start the 3 containers plus containers for the OpenTelemetry Collector, Grafana, Loki, Prometheus, and Tempo.
+    * orders: Spring service for order processing
+    * inventory: Spring service for inventory checks
+1. Run 'up.[bat|sh]'. This will start the 5 containers plus containers for the OpenTelemetry Collector, Grafana, Loki, Prometheus, and Tempo.
     ```
     [+] Running 48/48
      ✔ newman Pulled                                                                                                                                                                                                                                                                  29.2s
@@ -108,6 +111,9 @@ Prior to setting up this environment, you must:
      ✔ Container demo-tempo-1           Started                                                                                                                                                                                                                                        2.5s
      ✔ Container demo-otel-collector-1  Started                                                                                                                                                                                                                                        2.0s
      ✔ Container demo-grafana-1         Started
+     ✔ Container demo-orders-1          Started                                                                                                                                                                                                                                        2.0s
+     ✔ Container demo-inventory-1       Started
+   
     ```
 1. If the otel-collector container shuts down after starting, check the otel/logs folder on the host and make sure it is writable.
 1. On startup, the IS will automatically register the Nibble Demo API with the API Gateway. You can monitor the MSR server.log to determine when the MSR and APIG have started successfully. Run the command:
