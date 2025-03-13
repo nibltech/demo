@@ -1,6 +1,6 @@
 ARG TAG=latest
 
-FROM sagcr.azurecr.io/apigateway:${TAG}
+FROM ibmwebmethods.azurecr.io/apigateway:${TAG}
 
 ARG SAG_HOME
 ARG IS_HOME

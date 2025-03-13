@@ -1,6 +1,6 @@
 ARG TAG=latest
 
-FROM sagcr.azurecr.io/webmethods-microservicesruntime:${TAG}
+FROM ibmwebmethods.azurecr.io/webmethods-microservicesruntime:${TAG}
 
 ARG SAG_HOME
 ARG IS_HOME
