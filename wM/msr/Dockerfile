@@ -43,5 +43,5 @@ USER sagadmin
 RUN chmod +x ${TGT_NIBBLE_DIR}/install.sh && ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
 
 # Install NtDemo package
-COPY --chown=sagadmin:sagadmin ${SRC_PKGS_DIR}/NtDemo ${IS_HOME}/packages/NtDemo
+COPY --chown=sagadmin:sagadmin ${SRC_PKGS_DIR} ${IS_HOME}/packages
 RUN ${IS_HOME}/bin/jcode.sh make NtDemo
