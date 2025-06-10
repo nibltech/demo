@@ -1,0 +1,11 @@
+services:
+  ibmmq:
+    image: ibmcom/mq
+    ports:
+      - "1414:1414"
+      - "9443:9443"
+    environment:
+      - LICENSE=accept
+      - MQ_QMGR_NAME=QM1
+    volumes:
+      - ./20-config.mqsc:/etc/mqm/20-config.mqsc
