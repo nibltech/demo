@@ -1,0 +1,10 @@
+services:
+  # ApiConsumer
+  api-consumer:
+    image: nibl-api-consumer:1.0
+    build:
+      dockerfile: spring/ApiConsumer_Dockerfile
+    environment:
+      - CALL_COUNT=100
+      - CALL_DELAY=1
+      - CLIENT_IDS=Castro LLC,Singh Consortium,Shoup Enterprises

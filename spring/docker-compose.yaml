@@ -13,4 +13,3 @@ services:
       dockerfile: spring/Inventory_Dockerfile
     ports:
       - "8081:8081"    # Port
-      

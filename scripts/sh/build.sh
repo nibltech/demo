@@ -3,7 +3,11 @@
 SCRIPTS_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 pushd ${SCRIPTS_DIR}/../../spring/Orders >/dev/null
-./gradlew -x test copyDependencies build
+../gradlew -x test copyDependencies build
+popd >/dev/null
+
+pushd ${SCRIPTS_DIR}/../../spring/ApiConsumer >/dev/null
+../gradlew -x test copyDependencies build
 popd >/dev/null
 
 # Build the Docker images
