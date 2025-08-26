@@ -2,4 +2,4 @@ FROM eclipse-temurin:17-jdk-alpine
 
 COPY ./spring/ApiConsumer/build/libs/ApiConsumer-1.0.jar /opt/ApiConsumer/ApiConsumer-1.0.jar
 COPY ./spring/Orders/dependencies/opentelemetry-javaagent*.jar /opt/ApiConsumer/opentelemetry-javaagent.jar
-ENTRYPOINT ["java","-javaagent:/opt/ApiConsumer/opentelemetry-javaagent.jar","-Dotel.service.name=demo-api-consumer", "-Dotel.exporter.otlp.endpoint=http://otel-collector:4317", "-jar", "/opt/ApiConsumer/ApiConsumer-1.0.jar"]
+ENTRYPOINT ["java","-javaagent:/opt/ApiConsumer/opentelemetry-javaagent.jar","-Dotel.service.name=demo-api-consumer", "-Dotel.exporter.otlp.endpoint=http://otel-lgtm:4317", "-jar", "/opt/ApiConsumer/ApiConsumer-1.0.jar"]

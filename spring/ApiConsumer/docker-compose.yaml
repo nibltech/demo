@@ -7,4 +7,4 @@ services:
     environment:
       - CALL_COUNT=100
       - CALL_DELAY=1
-      - CLIENT_IDS=Castro LLC,Singh Consortium,Shoup Enterprises
+      - CLIENT_IDS=Company A, Company B, Company C
