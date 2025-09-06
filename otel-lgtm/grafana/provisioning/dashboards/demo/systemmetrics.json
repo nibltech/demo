@@ -116,7 +116,7 @@
               },
               "editorMode": "code",
               "expr": "runtime_jvm_cpu_usage_ratio{type=\"processCpuLoad\"}",
-              "legendFormat": "{{exported_job}}",
+              "legendFormat": "{{service_name}}",
               "range": true,
               "refId": "A"
             }
@@ -207,7 +207,7 @@
               },
               "editorMode": "code",
               "expr": "runtime_jvm_cpu_threads{type=\"current\"}",
-              "legendFormat": "{{exported_job}}",
+              "legendFormat": "{{service_name}}",
               "range": true,
               "refId": "A"
             }
@@ -286,7 +286,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "process_runtime_jvm_memory_usage_bytes{exported_job=\"apig\", type=\"heap\"}",
+              "expr": "process_runtime_jvm_memory_usage_bytes{service_name=\"apig\", type=\"heap\"}",
               "legendFormat": "{{pool}}",
               "range": true,
               "refId": "A"
@@ -352,7 +352,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "process_runtime_jvm_memory_usage_bytes{exported_job=\"msr\", type=\"heap\"}",
+              "expr": "process_runtime_jvm_memory_usage_bytes{service_name=\"msr\", type=\"heap\"}",
               "legendFormat": "{{pool}}",
               "range": true,
               "refId": "A"
@@ -444,7 +444,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "sum by(exported_job)(process_runtime_jvm_memory_usage_bytes{type=\"heap\",exported_job=~\"apig|msr\"})",
+              "expr": "sum by(service_name)(process_runtime_jvm_memory_usage_bytes{type=\"heap\",service_name=~\"apig|msr\"})",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
@@ -521,7 +521,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "runtime_server_stats_ratio{exported_job=\"apig\"}",
+              "expr": "runtime_server_stats_ratio{service_name=\"apig\"}",
               "legendFormat": "{{type}}",
               "range": true,
               "refId": "A"
@@ -584,7 +584,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "runtime_server_stats_ratio{exported_job=\"msr\"}",
+              "expr": "runtime_server_stats_ratio{service_name=\"msr\"}",
               "legendFormat": "{{type}}",
               "range": true,
               "refId": "A"
@@ -642,7 +642,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "sum by(exported_job)(otelscope_svcs_otel_tracesCreated_total{failed=\"false\"})",
+              "expr": "sum by(service_name)(otelscope_svcs_otel_tracesCreated_total{failed=\"false\"})",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
@@ -700,7 +700,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "sum by(exported_job)(otelscope_svcs_otel_tracesCreated_total{failed=\"true\"})",
+              "expr": "sum by(service_name)(otelscope_svcs_otel_tracesCreated_total{failed=\"true\"})",
               "legendFormat": "__auto",
               "range": true,
               "refId": "A"
