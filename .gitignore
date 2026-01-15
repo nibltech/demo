@@ -26,3 +26,9 @@ Nt*.zip
 
 # Temp directory
 /tmp
+.idea
+spring/ApiConsumer/.gradle
+spring/Orders/.gradle
+spring/Inventory/.gradle
+spring/ApiConsumer/build
+spring/Orders/build

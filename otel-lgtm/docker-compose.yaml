@@ -1,7 +1,7 @@
 services:
 
   otel-lgtm:
-    image: grafana/otel-lgtm:0.11.9
+    image: grafana/otel-lgtm:0.13.0
     volumes:
       - ${GRAFANA_DIR:-.}/provisioning:/otel-lgtm/grafana/conf/provisioning
       - ${OTEL_DIR:-.}/otel-collector.yaml:/otel-lgtm/otelcol-config.yaml
