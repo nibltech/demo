@@ -35,7 +35,6 @@ RUN cd ${TGT_PKGS_DIR} \
 COPY --chown=sagadmin:sagadmin ${SRC_NIBBLE_DIR} ${TGT_NIBBLE_DIR}
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/*.cfg ${TGT_NIBBLE_DIR}
 
-# Install Nibble packages
 USER root
 RUN microdnf install -y bash findutils && microdnf clean all
 

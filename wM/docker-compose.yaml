@@ -1,5 +1,6 @@
 services:
 
+  # API Gateway
   apig:
     # Image name
     image: nibl-apig:${SAG_VERSION}
@@ -22,14 +23,12 @@ services:
       - apigw_elasticsearch_http_password=
     # Setting for exposing ports to the outside (external port:internal port).
     ports:
-      # Server port
-      - 6660:5555
-      # UI port
-      - 9072:9072
+      - 6660:5555  # Server port
+      - 9072:9072  # UI port
       - 16033:10033  # JVM Remote Debug
 
     volumes:
-      - apig-logs:/opt/softwareag/IntegrationServer/instances/default/logs:rw
+      - apig-logs:${APIG_IS_HOME}/logs:rw
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.2.3
@@ -51,6 +50,9 @@ services:
       - xpack.security.enabled=false
       - xpack.security.transport.ssl.enabled=false
       - xpack.security.http.ssl.enabled=false
+      # Settings for Nanoscope
+      - "JAVA_CUSTOM_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED  --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/jdk.internal.ref=ALL-UNNAMED --add-opens java.logging/java.util.logging=ALL-UNNAMED --add-exports jdk.unsupported/sun.misc=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-opens jdk.compiler/com.sun.tools.javac=ALL-UNNAMED"
+
     ports:
       # REST interface
       - 9240:9200
@@ -67,11 +69,15 @@ services:
         TAG: ${MSR_DOCKER_TAG}
         SAG_HOME: ${SAG_HOME}
         IS_HOME: ${IS_HOME}
+    
+    environment:
+      - "JAVA_CUSTOM_OPTS=--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED  --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/jdk.internal.ref=ALL-UNNAMED --add-opens java.logging/java.util.logging=ALL-UNNAMED --add-exports jdk.unsupported/sun.misc=ALL-UNNAMED --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-opens jdk.compiler/com.sun.tools.javac=ALL-UNNAMED"
+ 
     ports:
       - "5550:5555"    # Integration Server HTTP
       - "10033:10033"  # JVM Remote Debug
     volumes:
-      - msr-logs:/opt/softwareag/IntegrationServer/logs:rw
+      - msr-logs:${IS_HOME}/logs:rw
 
   # Universal Messaging
   um:
