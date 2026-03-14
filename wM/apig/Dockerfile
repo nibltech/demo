@@ -8,6 +8,7 @@ ARG APIG_IS_HOME
 ARG SRC_NIBBLE_DIR=./nibble
 ARG SRC_CONFIG_DIR=./apig/config
 ARG SRC_UPDATES_DIR=./updates
+ARG SRC_COMMON_PKGS_DIR=./common/packages
 ARG TGT_NIBBLE_DIR=/tmp/nibble
 ARG TGT_CONFIG_DIR=${APIG_IS_HOME}/config
 ARG TGT_UPDATES_DIR=${IS_HOME}/updates
@@ -36,7 +37,11 @@ COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/*.cfg ${TGT_NIBBLE_DIR}
 
 # Install Nibble packages
 USER root
-RUN microdnf install -y findutils && microdnf clean all
+RUN microdnf install -y bash findutils && microdnf clean all
 
 USER sagadmin
 RUN chmod +x ${TGT_NIBBLE_DIR}/install.sh && ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
+
+# Install NtOtelSamples package
+COPY --chown=sagadmin:sagadmin ${SRC_COMMON_PKGS_DIR} ${IS_HOME}/packages
+RUN ${IS_HOME}/bin/jcode.sh make NtOtelSamples
