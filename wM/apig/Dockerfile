@@ -19,10 +19,6 @@ ENV SAG_HOME=${SAG_HOME}
 ENV IS_HOME=${APIG_IS_HOME}
 ENV JAVA_HOME=${JRE_HOME}
 
-# Copy configuration files
-COPY --chown=sagadmin:sagadmin ./apig/startContainer.sh ${SAG_HOME}/IntegrationServer/bin
-RUN chmod +x ${SAG_HOME}/IntegrationServer/bin/startContainer.sh
-
 # Take ownership of the shared volume
 RUN mkdir ${IS_HOME}/logs \
     && chown sagadmin ${IS_HOME}/logs \
