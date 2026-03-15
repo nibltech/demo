@@ -1,13 +1,15 @@
 ARG TAG=latest
 
-FROM sagcr.azurecr.io/apigateway:${TAG}
+FROM ibmwebmethods.azurecr.io/apigateway:${TAG}
 
 ARG SAG_HOME
 ARG IS_HOME
 ARG APIG_IS_HOME
+ARG SRC_PKGS_DIR=./apig/packages
 ARG SRC_NIBBLE_DIR=./nibble
 ARG SRC_CONFIG_DIR=./apig/config
 ARG SRC_UPDATES_DIR=./updates
+ARG SRC_COMMON_PKGS_DIR=./common/packages
 ARG TGT_NIBBLE_DIR=/tmp/nibble
 ARG TGT_CONFIG_DIR=${APIG_IS_HOME}/config
 ARG TGT_UPDATES_DIR=${IS_HOME}/updates
@@ -16,9 +18,6 @@ ARG TGT_PKGS_DIR=${APIG_IS_HOME}/packages
 ENV SAG_HOME=${SAG_HOME}
 ENV IS_HOME=${APIG_IS_HOME}
 ENV JAVA_HOME=${JRE_HOME}
-
-# Copy configuration files
-COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
 
 # Take ownership of the shared volume
 RUN mkdir ${IS_HOME}/logs \
@@ -34,9 +33,14 @@ RUN cd ${TGT_PKGS_DIR} \
 COPY --chown=sagadmin:sagadmin ${SRC_NIBBLE_DIR} ${TGT_NIBBLE_DIR}
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/*.cfg ${TGT_NIBBLE_DIR}
 
-# Install Nibble packages
 USER root
-RUN microdnf install -y findutils && microdnf clean all
+RUN microdnf install -y bash findutils && microdnf clean all
 
 USER sagadmin
+
+# Install Nibble packages
 RUN chmod +x ${TGT_NIBBLE_DIR}/install.sh && ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
+
+# Install NtOtelSamples package
+COPY --chown=sagadmin:sagadmin ${SRC_COMMON_PKGS_DIR} ${IS_HOME}/packages
+RUN ${IS_HOME}/bin/jcode.sh make NtOtelSamples

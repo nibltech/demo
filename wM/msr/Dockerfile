@@ -1,12 +1,13 @@
 ARG TAG=latest
 
-FROM sagcr.azurecr.io/webmethods-microservicesruntime:${TAG}
+FROM ibmwebmethods.azurecr.io/webmethods-microservicesruntime:${TAG}
 
 ARG SAG_HOME
 ARG IS_HOME
 ARG SRC_NIBBLE_DIR=./nibble
 ARG SRC_CONFIG_DIR=./msr/config
 ARG SRC_UPDATES_DIR=./updates
+ARG SRC_COMMON_PKGS_DIR=./common/packages
 ARG SRC_PKGS_DIR=./msr/packages
 ARG TGT_NIBBLE_DIR=/tmp/nibble
 ARG TGT_CONFIG_DIR=${IS_HOME}/config
@@ -18,7 +19,6 @@ ENV IS_HOME=${IS_HOME}
 ENV JAVA_HOME=${JRE_HOME}
 
 # Copy configuration files
-COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/messaging.cnf ${TGT_CONFIG_DIR}
 
 # Take ownership of the shared volume
@@ -35,13 +35,17 @@ RUN cd ${TGT_PKGS_DIR} \
 COPY --chown=sagadmin:sagadmin ${SRC_NIBBLE_DIR} ${TGT_NIBBLE_DIR}
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/*.cfg ${TGT_NIBBLE_DIR}
 
-# Install Nibble packages
 USER root
-RUN apk add bash
+RUN microdnf install -y bash findutils && microdnf clean all
 
+# Install Nibble packages
 USER sagadmin
 RUN chmod +x ${TGT_NIBBLE_DIR}/install.sh && ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
 
-# Install NtDemo package
-COPY --chown=sagadmin:sagadmin ${SRC_PKGS_DIR}/NtDemo ${IS_HOME}/packages/NtDemo
+# Install any packages
+COPY --chown=sagadmin:sagadmin ${SRC_PKGS_DIR} ${IS_HOME}/packages
 RUN ${IS_HOME}/bin/jcode.sh make NtDemo
+
+# Install NtOtelSamples package
+COPY --chown=sagadmin:sagadmin ${SRC_COMMON_PKGS_DIR} ${IS_HOME}/packages
+RUN ${IS_HOME}/bin/jcode.sh make NtOtelSamples

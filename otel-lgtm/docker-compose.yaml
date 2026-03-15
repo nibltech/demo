@@ -1,0 +1,18 @@
+services:
+
+  otel-lgtm:
+    image: grafana/otel-lgtm:0.13.0
+    volumes:
+      - ${GRAFANA_DIR:-.}/provisioning:/otel-lgtm/grafana/conf/provisioning
+      - ${OTEL_DIR:-.}/otel-collector.yaml:/otel-lgtm/otelcol-config.yaml
+      - ${OTEL_DIR:-.}/logs:/etc/logs
+      - msr-logs:/etc/msr-logs:ro
+      - apig-logs:/etc/apig-logs:ro
+    environment:
+      - ENABLE_LOGS_ALL=false
+      - ENABLE_LOGS_OTELCOL=true
+      - ENABLE_LOGS_GRAFANA=false
+    ports:
+      - "3000:3000"
+      - "4317:4317"
+      - "4318:4318"

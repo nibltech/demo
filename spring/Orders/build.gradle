@@ -1,0 +1,39 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.16'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.nibble.demo'
+version = '1.0'
+
+java {
+	sourceCompatibility = '11'
+	targetCompatibility = '11'
+}
+
+configurations {
+	otelJavaagentJar {
+		canBeConsumed = true
+		canBeResolved = true
+		extendsFrom runtimeOnly
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+task copyDependencies(type: Copy) {
+	from configurations.otelJavaagentJar
+	into 'dependencies'
+}
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	runtimeOnly group: 'io.opentelemetry.javaagent', name: 'opentelemetry-javaagent', version: '1.30.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

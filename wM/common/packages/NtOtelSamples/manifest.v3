@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="enabled">yes</value>
+  <value name="system_package">no</value>
+  <value name="version">nibble.samples.version</value>
+  <value name="revision">0</value>
+  <record name="startup_services" javaclass="com.wm.util.Values">
+    <null name="nibble.samples.admin:startup"/>
+  </record>
+  <record name="shutdown_services" javaclass="com.wm.util.Values"/>
+  <null name="replication_services"/>
+  <record name="requires" javaclass="com.wm.util.Values">
+    <value name="NtOtelscope">2.0.2</value>
+  </record>
+  <null name="listACL"/>
+  <value name="webappLoad">no</value>
+  <value name="reloadWithDependentPackage">no</value>
+</Values>

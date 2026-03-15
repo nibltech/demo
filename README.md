@@ -2,7 +2,7 @@
 
 ## What is this repository for? ##
 
-Quickly spin up a Dockerized demo environment for Otelscope. In this demo, we use Otelscope to push logs, metrics, and traces from the webMethods API Gateway and Microservices Runtime to the Grafana stack composed of Grafana, Loki, Prometheus, and Tempo.
+Quickly spin up a Dockerized demo environment for Otelscope. In this demo, we use Otelscope to push logs, metrics, and traces from the webMethods API Gateway and Microservices Runtime to the Grafana stack composed of Grafana, Loki, Prometheus, and Tempo. The setup also includes two spring services that show traces that include spans from non-webMethods components.
 
 ## Pre-requisites ##
 
@@ -12,7 +12,7 @@ Prior to setting up this environment, you must:
 1. Go to https://containers.webmethods.io, login with your account, and generate credentials from the User Profile page.
 1. Open a command prompt on your machine and issue a 'docker login' command as follows:
     ```
-    docker login sagcr.azurecr.io -u user-nibl-tech -p abcd1234efgh5678iklm
+    docker login ibmwwebmethods.azurecr.io -u user-nibl-tech -p abcd1234efgh5678iklm
     ```
 1. If using Windows, navigate to your home directory (i.e. %HOMEPATH%) create a file named .wslconfig if it doesn't exist and add the following lines to it:
     ```
@@ -34,82 +34,33 @@ Prior to setting up this environment, you must:
     ```
     git clone --recursive https://github.com/nibltech/demo.git
     ```
-1. Switch to the 'otelscope-to-grafana-stack' branch
-1. Copy the IBM license XML files to the following directories:
-    1. Copy API Gateway license to wM/apig/config with the file name licenseKey.xml
-    1. Copy Microservices Runtime license to wM/msr/config with the file name licenseKey.xml
-    1. Copy Universal Messaging license to wM/um/config with the file name licence.xml
+1. Switch to the 'otelscope-with-spring' branch
 1. Copy the package files (Nt*.zip) and license file received from Nibble Technologies to the directory wM/nibble. (NOTE: If you do not have an Otelscope distribution or license file yet, please reach out to info@nibl.tech and we'll set you up with a trial license.)
-1. Open a DOS command prompt and navigate to the location where your repository was cloned.
+1. Open a DOS command prompt, or a Gitbash terminal, and navigate to the location where your repository was cloned.
 1. In Windows, navigate to scripts/bat, and on MacOS or Linux, navigate to scripts/sh.
-1. Run 'build.[bat|sh]'. This will build 3 Docker images:
+1. Make sure the JAVA_HOME environment variable is set to a JDK location.
+1. Run 'build.[bat|sh]'. This will build 6 Docker images:
     * nibl-apig: webMethods API Gateway
     * nibl-msr: webMethods Microservices Runtime
     * nibl-um: webMethods Universal Messaging
-1. Run 'up.[bat|sh]'. This will start the 3 containers plus containers for the OpenTelemetry Collector, Grafana, Loki, Prometheus, and Tempo.
+    * nibl-api-cnsumer: Springboot application to send API requests
+    * nibl-order: Springboot application to provide order IDs
+    * nibl-inventory: Springboot application that updates inventory
+ 
+1. Run 'up.[bat|sh]'. This will start all the containers plus containers for the OpenTelemetry Collector, Grafana, Loki, Prometheus, and Tempo.
     ```
-    [+] Running 48/48
-     ✔ newman Pulled                                                                                                                                                                                                                                                                  29.2s
-       ✔ 7264a8db6415 Pull complete                                                                                                                                                                                                                                                   15.7s
-       ✔ eee371b9ce3f Pull complete                                                                                                                                                                                                                                                   22.2s
-       ✔ 93b3025fe103 Pull complete                                                                                                                                                                                                                                                   22.4s
-       ✔ d9059661ce70 Pull complete                                                                                                                                                                                                                                                   22.5s
-       ✔ 950c5e76b10c Pull complete                                                                                                                                                                                                                                                   27.4s
-       ✔ e8d77df97bba Pull complete                                                                                                                                                                                                                                                   27.4s
-     ✔ grafana Pulled                                                                                                                                                                                                                                                                 13.9s
-       ✔ 4abcf2066143 Pull complete                                                                                                                                                                                                                                                    0.7s
-       ✔ b03b7e4dc6ec Pull complete                                                                                                                                                                                                                                                    0.7s
-       ✔ bc75fdc748a7 Pull complete                                                                                                                                                                                                                                                    1.3s
-       ✔ ee7634418d4d Pull complete                                                                                                                                                                                                                                                    1.5s
-       ✔ bc8cbc4d3b53 Pull complete                                                                                                                                                                                                                                                    1.6s
-       ✔ b28fcad58785 Pull complete                                                                                                                                                                                                                                                    1.6s
-       ✔ 523b402e7b72 Pull complete                                                                                                                                                                                                                                                    7.2s
-       ✔ fe85b93446d3 Pull complete                                                                                                                                                                                                                                                   12.2s
-       ✔ c8e0096204b6 Pull complete                                                                                                                                                                                                                                                   12.2s
-       ✔ 0f74ad7318b5 Pull complete                                                                                                                                                                                                                                                   12.3s
-     ✔ loki Pulled                                                                                                                                                                                                                                                                    17.9s
-       ✔ c6a83fedfae6 Already exists                                                                                                                                                                                                                                                   0.0s
-       ✔ 0f20e825297d Pull complete                                                                                                                                                                                                                                                   13.6s
-       ✔ 92134d5e22c6 Pull complete                                                                                                                                                                                                                                                   16.0s
-       ✔ 9905beb22ae4 Pull complete                                                                                                                                                                                                                                                   16.1s
-       ✔ c9bc48169e35 Pull complete                                                                                                                                                                                                                                                   16.2s
-       ✔ 41c82947998a Pull complete                                                                                                                                                                                                                                                   16.2s
-     ✔ tempo Pulled                                                                                                                                                                                                                                                                   21.6s
-       ✔ d25f557d7f31 Pull complete                                                                                                                                                                                                                                                   14.5s
-       ✔ 58d8c981f42d Pull complete                                                                                                                                                                                                                                                   14.8s
-       ✔ c49c02809f91 Pull complete                                                                                                                                                                                                                                                   19.8s
-       ✔ 0ed949ddcab9 Pull complete                                                                                                                                                                                                                                                   19.8s
-       ✔ e7bf9fa60037 Pull complete                                                                                                                                                                                                                                                   19.9s
-     ✔ otel-collector Pulled                                                                                                                                                                                                                                                          14.3s
-       ✔ c449b9766f64 Pull complete                                                                                                                                                                                                                                                    2.7s
-       ✔ 75af9fbb5b0d Pull complete                                                                                                                                                                                                                                                   12.6s
-       ✔ e96c0d151180 Pull complete                                                                                                                                                                                                                                                   12.6s
-     ✔ prometheus Pulled                                                                                                                                                                                                                                                              18.8s
-       ✔ 9fa9226be034 Pull complete                                                                                                                                                                                                                                                    6.2s
-       ✔ 1617e25568b2 Pull complete                                                                                                                                                                                                                                                    6.6s
-       ✔ ec307c9fbf62 Pull complete                                                                                                                                                                                                                                                   14.7s
-       ✔ d4e715947f0e Pull complete                                                                                                                                                                                                                                                   16.7s
-       ✔ c522420720c6 Pull complete                                                                                                                                                                                                                                                   16.8s
-       ✔ 18d28937c421 Pull complete                                                                                                                                                                                                                                                   16.8s
-       ✔ 873361efd54d Pull complete                                                                                                                                                                                                                                                   16.9s
-       ✔ dd44465db85c Pull complete                                                                                                                                                                                                                                                   16.9s
-       ✔ 0636908550c9 Pull complete                                                                                                                                                                                                                                                   17.0s
-       ✔ cd795675b8a2 Pull complete                                                                                                                                                                                                                                                   17.0s
-       ✔ 407f3c6e3260 Pull complete                                                                                                                                                                                                                                                   17.1s
-       ✔ 67fb76c620a2 Pull complete                                                                                                                                                                                                                                                   17.1s
-    [+] Running 10/10
-     ✔ Network demo_default             Created                                                                                                                                                                                                                                        0.1s
-     ✔ Container demo-msr-1             Started                                                                                                                                                                                                                                        2.4s
-     ✔ Container prometheus-1           Started                                                                                                                                                                                                                                        2.4s
-     ✔ Container loki-1                 Started                                                                                                                                                                                                                                        2.4s
-     ✔ Container demo-um-1              Started                                                                                                                                                                                                                                        2.7s
-     ✔ Container demo-newman-1          Started                                                                                                                                                                                                                                        2.3s
-     ✔ Container demo-apig-1            Started                                                                                                                                                                                                                                        2.8s
-     ✔ Container demo-tempo-1           Started                                                                                                                                                                                                                                        2.5s
-     ✔ Container demo-otel-collector-1  Started                                                                                                                                                                                                                                        2.0s
-     ✔ Container demo-grafana-1         Started
+✔ Container demo-inventory-1
+ Started                                                                          0.7s
+ ✔ Container demo-otel-lgtm-1     Started                                                                          1.2s
+ ✔ Container demo-orders-1        Started                                                                          0.8s
+ ✔ Container demo-api-consumer-1  Started                                                                          0.6s
+ ✔ Container demo-msr-1           Started                                                                          1.0s
+ ✔ Container demo-apig-1          Started                                                                          1.1s
+ ✔ Container demo-newman-1        Started                                                                          1.0s
+ ✔ Container elasticsearch        Started                                                                          0.9s
+ ✔ Container demo-um-1            Started                                                                          0.7s
+
     ```
-1. If the otel-collector container shuts down after starting, check the otel/logs folder on the host and make sure it is writable.
 1. On startup, the IS will automatically register the Nibble Demo API with the API Gateway. You can monitor the MSR server.log to determine when the MSR and APIG have started successfully. Run the command:
     ```
     logs.[bat|sh] -f msr
@@ -121,7 +72,14 @@ Prior to setting up this environment, you must:
     demo-msr-1  | ISSERVER|| 2023-10-03 03:12:42 GMT [ISP.0090.0003C] (tid=243) [traceId=2080e2b31831ea25443cbfdce9423a79 spanId=82b90a547cd32f01] Waiting for IS running on apig:5555 to start...
     demo-msr-1  | ISSERVER|| 2023-10-03 03:12:42 GMT [ISP.0090.0003C] (tid=243) [traceId=2080e2b31831ea25443cbfdce9423a79 spanId=82b90a547cd32f01] Connected to IS running on apig:5555 successfully!
     ```
-1. Once the containers are up, you can use the 'compose.[bat|sh]' script as a shortcut to check on the containers' status or interacting with the containers themselves, e.g.:
+1. Once the containers are up, the MSR logs will show some Orders being submitted. This is because the demo is
+configured to submit these.
+
+```
+msr-1  | ISSERVER|| 2026-03-15 03:41:28 GMT [ISP.0090.0003C] (tid=236) [traceId=e5854fdb7341f139d804f0f5061d469a spanId=545db12f812e77db] Received order from customer Company B
+``` 
+
+1. You can use the 'compose.[bat|sh]' script as a shortcut to check on the containers' status or interacting with the containers themselves, e.g.:
     * compose.[bat|sh] ps
     * compose.[bat|sh] exec apig bash
 
@@ -171,3 +129,9 @@ Prior to setting up this environment, you must:
     1. Click on Explore and choose Prometheus from the drop-down
     1. Explore the metrics in the 'Select metrics' drop-down and experiment with filtering the metrics
     1. Finally, go to Dashboards and explore the dashboards under Otelscope Demo
+
+Note: The data.bat|sh script uses a Newman container that makes API calls to the API GW using a postman collection. If you are interested in having the trace start before they arrive in webMethods, run the data.bat|sh script with a single parameter who value is 'consumer', as shown below:
+```
+data.sh consumer
+```
+This helps to demonstrate the case where the trace starts in Springboot and then gets propagated to webMethods.

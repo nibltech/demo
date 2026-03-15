@@ -14,6 +14,7 @@ fi
 # Loop over the package zip files
 for ZIP_FILE in *.zip
 do
+    [ -e "$ZIP_FILE" ] || continue # Handle the case where there are no zip files in the directory
     # If the zip file name contains 'api' but this is not an API Gateway server, then do not install it and go to the next zip file
     if [[ ${ZIP_FILE} == *api* && ${APIG_SERVER} == false ]]
     then
