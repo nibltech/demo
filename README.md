@@ -32,9 +32,8 @@ Prior to setting up this environment, you must:
 
 1. Clone this repository onto your machine, e.g.: 
     ```
-    git clone --recursive https://github.com/nibltech/demo.git
+    git clone https://github.com/nibltech/demo.git
     ```
-1. Switch to the 'otelscope-with-spring' branch
 1. Copy the package files (Nt*.zip) and license file received from Nibble Technologies to the directory wM/nibble. (NOTE: If you do not have an Otelscope distribution or license file yet, please reach out to info@nibl.tech and we'll set you up with a trial license.)
 1. Open a DOS command prompt, or a Gitbash terminal, and navigate to the location where your repository was cloned.
 1. In Windows, navigate to scripts/bat, and on MacOS or Linux, navigate to scripts/sh.
