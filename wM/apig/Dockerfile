@@ -5,6 +5,7 @@ FROM ibmwebmethods.azurecr.io/apigateway:${TAG}
 ARG SAG_HOME
 ARG IS_HOME
 ARG APIG_IS_HOME
+ARG SRC_PKGS_DIR=./apig/packages
 ARG SRC_NIBBLE_DIR=./nibble
 ARG SRC_CONFIG_DIR=./apig/config
 ARG SRC_UPDATES_DIR=./updates
@@ -19,7 +20,8 @@ ENV IS_HOME=${APIG_IS_HOME}
 ENV JAVA_HOME=${JRE_HOME}
 
 # Copy configuration files
-COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
+COPY --chown=sagadmin:sagadmin ./apig/startContainer.sh ${SAG_HOME}/IntegrationServer/bin
+RUN chmod +x ${SAG_HOME}/IntegrationServer/bin/startContainer.sh
 
 # Take ownership of the shared volume
 RUN mkdir ${IS_HOME}/logs \
@@ -39,6 +41,8 @@ USER root
 RUN microdnf install -y bash findutils && microdnf clean all
 
 USER sagadmin
+
+# Install Nibble packages
 RUN chmod +x ${TGT_NIBBLE_DIR}/install.sh && ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
 
 # Install NtOtelSamples package

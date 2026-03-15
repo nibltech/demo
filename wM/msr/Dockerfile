@@ -19,8 +19,10 @@ ENV IS_HOME=${IS_HOME}
 ENV JAVA_HOME=${JRE_HOME}
 
 # Copy configuration files
-COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/licenseKey.xml ${TGT_CONFIG_DIR}
 COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/messaging.cnf ${TGT_CONFIG_DIR}
+COPY --chown=sagadmin:sagadmin ./msr/startContainer.sh ${SAG_HOME}/IntegrationServer/bin
+RUN chmod +x ${SAG_HOME}/IntegrationServer/bin/startContainer.sh
+
 
 # Take ownership of the shared volume
 RUN mkdir ${IS_HOME}/logs \
@@ -43,9 +45,12 @@ RUN microdnf install -y bash findutils && microdnf clean all
 USER sagadmin
 RUN chmod +x ${TGT_NIBBLE_DIR}/install.sh && ${TGT_NIBBLE_DIR}/install.sh && rm -rf ${TGT_NIBBLE_DIR}
 
-# Install NtDemo package
+# Install any packages
 COPY --chown=sagadmin:sagadmin ${SRC_PKGS_DIR} ${IS_HOME}/packages
 RUN ${IS_HOME}/bin/jcode.sh make NtDemo
+
 # Install NtOtelSamples package
 COPY --chown=sagadmin:sagadmin ${SRC_COMMON_PKGS_DIR} ${IS_HOME}/packages
 RUN ${IS_HOME}/bin/jcode.sh make NtOtelSamples
+
+COPY --chown=sagadmin:sagadmin ${SRC_CONFIG_DIR}/application.properties ${IS_HOME}
