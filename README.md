@@ -72,7 +72,14 @@ Prior to setting up this environment, you must:
     demo-msr-1  | ISSERVER|| 2023-10-03 03:12:42 GMT [ISP.0090.0003C] (tid=243) [traceId=2080e2b31831ea25443cbfdce9423a79 spanId=82b90a547cd32f01] Waiting for IS running on apig:5555 to start...
     demo-msr-1  | ISSERVER|| 2023-10-03 03:12:42 GMT [ISP.0090.0003C] (tid=243) [traceId=2080e2b31831ea25443cbfdce9423a79 spanId=82b90a547cd32f01] Connected to IS running on apig:5555 successfully!
     ```
-1. Once the containers are up, you can use the 'compose.[bat|sh]' script as a shortcut to check on the containers' status or interacting with the containers themselves, e.g.:
+1. Once the containers are up, the MSR logs will show some Orders being submitted. This is because the demo is
+configured to submit these.
+
+```
+msr-1  | ISSERVER|| 2026-03-15 03:41:28 GMT [ISP.0090.0003C] (tid=236) [traceId=e5854fdb7341f139d804f0f5061d469a spanId=545db12f812e77db] Received order from customer Company B
+``` 
+
+1. You can use the 'compose.[bat|sh]' script as a shortcut to check on the containers' status or interacting with the containers themselves, e.g.:
     * compose.[bat|sh] ps
     * compose.[bat|sh] exec apig bash
 
