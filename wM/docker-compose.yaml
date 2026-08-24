@@ -31,7 +31,7 @@ services:
       - apig-logs:${APIG_IS_HOME}/logs:rw
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ES_DOCKER_TAG}
     container_name: elasticsearch
     hostname: elasticsearch
     # Elasticsearch settings
